@@ -59,15 +59,18 @@ end
 script.on_event(defines.events.on_player_joined_game, on_player_joined_game )
 
 local function on_entity_damaged(event)
-        if storage.refresh_speed then
-                if event.cause.force.name == "enemy" then
-                        local speed = 1 / settings.global["timechanger-speed-when-damaged"].value
-                        if game.speed ~= speed then
-                                game.speed = speed
-                                update_guis()
-                        end
-                end
+    if storage.refresh_speed then
+		if event.cause == nil then
+			return
+		end
+        if event.cause.force.name == "enemy" then
+            local speed = 1 / settings.global["timechanger-speed-when-damaged"].value
+            if game.speed ~= speed then
+                game.speed = speed
+                update_guis()
+            end
         end
+    end
 end
 
 script.on_event(defines.events.on_entity_damaged, on_entity_damaged)
